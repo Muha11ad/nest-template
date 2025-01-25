@@ -20,5 +20,6 @@
     "noFallthroughCasesInSwitch": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": false
-  }
+  },
+  "include": ["src/**/*.ts", "src/types/custom.d.ts"]
 }

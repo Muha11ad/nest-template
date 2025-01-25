@@ -2,7 +2,9 @@ import { IdDto } from '@/common/dto';
 import { UserCreateDto, UserUpdateDto } from '../dto';
 import { UserService } from '../service/user.service';
 import { IUserController } from './user.controller.interface';
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@/common/guards';
+import { MyRequest } from '@/common/guards/auth.guard';
 
 @Controller('users')
 export class UserController implements IUserController {
@@ -14,7 +16,7 @@ export class UserController implements IUserController {
   }
 
   @Post()
-  async create(@Body() data: UserCreateDto) {
+  async create(@Body() data: UserCreateDto): Promise<string> {
     return await this.userService.createUser(data);
   }
   @Delete(':id')
@@ -22,7 +24,8 @@ export class UserController implements IUserController {
     return await this.userService.deleteUser(Number(param.id));
   }
   @Put(':id')
-  async update(@Param() param: IdDto, @Body() data: UserUpdateDto) {
+  @UseGuards(AuthGuard)
+  async update(@Req() req: MyRequest, @Param() param: IdDto, @Body() data: UserUpdateDto) {
     return await this.userService.updateUser(Number(param.id), data);
   }
 }

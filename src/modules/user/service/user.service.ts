@@ -10,11 +10,15 @@ import { UserEntity } from '@/database/entities';
 import { LoggerProvider } from '@/common/providers';
 import { UserCreateDto, UserUpdateDto } from '../dto';
 import { IUserService } from './user.service.interface';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService implements IUserService {
   constructor(
+    private readonly jwtService: JwtService,
     private readonly logger: LoggerProvider,
+    private readonly configService: ConfigService,
     private readonly userRepository: UserRepository,
   ) {}
 
@@ -33,13 +37,15 @@ export class UserService implements IUserService {
     }
   }
 
-  public async createUser(data: UserCreateDto): Promise<UserEntity> {
+  public async createUser(data: UserCreateDto): Promise<string> {
     const user = await this.getUserByEmail(data.email);
     if (user) {
       throw new BadRequestException(USER_MESSAGES.warning_email_exist);
     }
     try {
-      return await this.userRepository.create(data);
+      await this.userRepository.create(data);
+      const secret = this.configService.get('JWT_SECRET') || 'secret';
+      return this.jwtService.sign({ email: data.email }, { secret });
     } catch (error) {
       this.logger.logError('USER-SERVICE', 500, error.message);
       throw new BadGatewayException(USER_MESSAGES.error_fetch_all);

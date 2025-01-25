@@ -11,7 +11,7 @@ export const corsOptions: CorsOptions = {
     callback: (err: Error | null, allow?: boolean | string) => void,
   ) => {
     if (origin === undefined) {
-      callback(null, false);
+      callback(new NotAcceptableException('Origin is not defined'), false);
     } else if (allowedOrigins.includes(origin)) {
       callback(null, origin);
     } else {
