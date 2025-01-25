@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "declaration": true,
+    "incremental": true,
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "strictNullChecks": false,
+    "strictBindCallApply": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noFallthroughCasesInSwitch": false,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": false
+  }
+}
