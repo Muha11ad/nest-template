@@ -1,9 +1,10 @@
 import { UserEntity } from '@/database/entities';
-import { UserCreateDto, UserUpdateDto } from '../dto';
+import { UserCreateDto, UserLoginDto, UserUpdateDto } from '../dto';
 
 export interface IUserService {
   getAllUser(): Promise<UserEntity[]>;
-  deleteUser(id: number): Promise<string>;
   createUser(data: UserCreateDto): Promise<string>;
-  updateUser(id: number, data: UserUpdateDto): Promise<string>;
+  validateUser(data: UserLoginDto): Promise<string>;
+  deleteUser(id: number, reqEmail: string): Promise<string>;
+  updateUser(id: number, data: UserUpdateDto, reqEmail: string): Promise<string>;
 }
