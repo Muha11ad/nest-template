@@ -5,7 +5,7 @@ import {
   BadRequestException,
   NotAcceptableException,
 } from '@nestjs/common';
-import { hash } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserRepository } from '../repository';
@@ -27,7 +27,6 @@ export class UserService implements IUserService {
   private getUserById(userId: number) {
     return this.userRepository.findById(userId);
   }
-
   private getUserByEmail(email: string) {
     return this.userRepository.findByEmail(email);
   }
@@ -113,7 +112,8 @@ export class UserService implements IUserService {
     if (!user) {
       throw new NotFoundException(USER_MESSAGES.user_not_found);
     }
-    if (user.password !== data.password) {
+    const isPasswordMatch = await compare(data.password, user.password);
+    if (!isPasswordMatch) {
       throw new BadRequestException(USER_MESSAGES.warning_wrong_password);
     }
     const secret = this.configService.get('JWT_SECRET') || 'secret';

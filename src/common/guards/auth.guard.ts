@@ -23,7 +23,6 @@ export class AuthGuard implements CanActivate {
     try {
       const secret = this.configService.get<string>('JWT_SECRET') || 'default';
       const { email } = this.jwtService.verify(token, { secret });
-      console.log(email);
 
       if (!email) {
         throw new UnauthorizedException('Token does not contain email');
