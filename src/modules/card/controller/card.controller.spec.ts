@@ -9,6 +9,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CardEntity, UserEntity } from '@/database/entities';
 import { LoggerProvider, ProviderModule } from '@/common/providers';
 import { CardCreateDto } from '../dto';
+import { CARD_MESSAGES } from '../card.consts';
 
 describe('CardController', () => {
   let controller: CardController;
@@ -54,6 +55,18 @@ describe('CardController', () => {
       expect(await controller.create({ user: 'test@example.com' } as any, cardCreateDto)).toBe(
         result,
       );
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete a card', async () => {
+      jest
+        .spyOn(service, 'deleteCard')
+        .mockImplementation(async () => CARD_MESSAGES.success_delete);
+      const req = { user: 'test@example.com' } as any;
+      const param = { id: '2' };
+
+      expect(await controller.delete(req, param)).toBe(CARD_MESSAGES.success_delete);
     });
   });
 });
