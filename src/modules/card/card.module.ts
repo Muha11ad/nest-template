@@ -11,5 +11,6 @@ import { CardRepository } from './repository/card.respository';
   imports: [ProviderModule, UserModule, TypeOrmModule.forFeature([CardEntity])],
   controllers: [CardController],
   providers: [CardRepository, CardService],
+  exports: [CardService, CardRepository],
 })
 export class CardModule {}
