@@ -36,7 +36,7 @@ npm run migration:run
 Start the application:
 
 ```bash
-npm run start
+npm run dev
 ```
 
 The application will be running at `http://localhost:9000`.
@@ -64,7 +64,7 @@ The application will be running at `http://localhost:9000`.
 Authenticate using JWT tokens. Include the token in the `Authorization` header as follows:
 
 ```
-Authorization: Bearer <your-token>
+authorization: your-token
 ```
 
 ## Caching
@@ -74,11 +74,5 @@ Redis is used for caching to improve performance. Ensure Redis is running and co
 ## Contributing
 
 Feel free to submit issues and pull requests. For major changes, please open an issue first to discuss what you would like to change.
-
-## License
-
-This project is licensed under the MIT License.
-
----
 
 Happy coding! 🚀
